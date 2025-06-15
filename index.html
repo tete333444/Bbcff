@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Menu Quán Sen</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🍽 Thực đơn Quán Sen</h1>
+  <div class="menu">
+    <div class="item" data-name="Phở Bò" data-price="40000">
+      <img src="https://i.imgur.com/kd7FZzB.jpg" alt="Phở Bò">
+      <h3>Phở Bò</h3>
+      <p>Giá: 40.000đ</p>
+      <div class="qty-control">
+        <button onclick="changeQty(this, -1)">-</button>
+        <span>0</span>
+        <button onclick="changeQty(this, 1)">+</button>
+      </div>
+    </div>
+    <div class="item" data-name="Cơm Tấm" data-price="35000">
+      <img src="https://i.imgur.com/mZBYEyx.jpg" alt="Cơm Tấm">
+      <h3>Cơm Tấm</h3>
+      <p>Giá: 35.000đ</p>
+      <div class="qty-control">
+        <button onclick="changeQty(this, -1)">-</button>
+        <span>0</span>
+        <button onclick="changeQty(this, 1)">+</button>
+      </div>
+    </div>
+    <div class="item" data-name="Bún Chả" data-price="45000">
+      <img src="https://i.imgur.com/JB3fx1m.jpg" alt="Bún Chả">
+      <h3>Bún Chả</h3>
+      <p>Giá: 45.000đ</p>
+      <div class="qty-control">
+        <button onclick="changeQty(this, -1)">-</button>
+        <span>0</span>
+        <button onclick="changeQty(this, 1)">+</button>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center; margin-bottom: 30px;">
+    <button class="order-btn" onclick="goToOrder()">📝 Đặt món</button>
+  </div>
+
+  <script>
+    function changeQty(btn, delta) {
+      const span = btn.parentNode.querySelector('span');
+      let val = parseInt(span.textContent) + delta;
+      if (val < 0) val = 0;
+      span.textContent = val;
+    }
+
+    function goToOrder() {
+      const items = document.querySelectorAll('.item');
+      let order = [];
+      items.forEach(item => {
+        const qty = parseInt(item.querySelector('span').textContent);
+        if (qty > 0) {
+          order.push({
+            name: item.dataset.name,
+            qty: qty
+          });
+        }
+      });
+      if (order.length === 0) {
+        alert("Bạn chưa chọn món nào!");
+        return;
+      }
+      localStorage.setItem('order', JSON.stringify(order));
+      location.href = "dat-mon.html";
+    }
+  </script>
+</body>
+</html>

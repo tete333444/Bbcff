@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Đặt món - Quán Sen</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🧾 Xác nhận đơn hàng</h1>
+  <div id="orderList" style="max-width:600px; margin: auto; text-align: center;"></div>
+  <div style="text-align: center; margin: 20px;">
+    <input type="text" id="soBan" placeholder="Nhập số bàn" style="padding:10px; font-size:1em; width: 80%; max-width: 300px;" />
+  </div>
+  <div style="text-align: center;">
+    <button class="order-btn" onclick="guiZalo()">📱 Gửi qua Zalo</button>
+  </div>
+
+  <script>
+    const order = JSON.parse(localStorage.getItem('order') || "[]");
+    const listDiv = document.getElementById('orderList');
+    if (order.length === 0) {
+      listDiv.innerHTML = "<p>Không có món nào được chọn.</p>";
+    } else {
+      let html = "<ul style='list-style:none; padding:0'>";
+      order.forEach(o => {
+        html += `<li>${o.name} x ${o.qty}</li>`;
+      });
+      html += "</ul>";
+      listDiv.innerHTML = html;
+    }
+
+    function guiZalo() {
+      const soBan = document.getElementById("soBan").value || "Không rõ";
+      let msg = "Đặt món:%0A";
+      order.forEach(o => {
+        msg += `- ${o.name} x${o.qty}%0A`;
+      });
+      msg += `(Bàn ${soBan})`;
+      const link = "https://zalo.me/0867673373?message=" + msg;
+      window.open(link, "_blank");
+    }
+  </script>
+</body>
+</html>
